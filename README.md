@@ -25,3 +25,30 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Design
+
+1. Header component
+
+2. Events/home
+
+2.1 search component -
+2.2 dashboard component -
+  Inputs: EventItem[]
+
+EventItem {
+  id: string;
+  date: Date;
+  availableticketsCount: number;
+  title: string;
+}
+
+3. Events/register
+
+Core functionality - listing, search, register form - Today
+state maintenance  - Tomorrow
+validators -
+css as per guidelines -
+
+
+

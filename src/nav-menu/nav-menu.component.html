@@ -1,0 +1,15 @@
+<ng-container *ngIf="!isBelowSm; else compactMenu">
+  <ng-container *ngTemplateOutlet="navBar"></ng-container>
+</ng-container>
+
+<ng-template #compactMenu>
+  <button class="menu--trigger" aria-label="Open" title="Open" (click)="isMenuOpen = !isMenuOpen"></button>
+  <ng-container *ngTemplateOutlet="navBar"></ng-container>
+</ng-template>
+
+<ng-template #navBar>
+  <nav [ngClass]="{ 'sidenav': isBelowSm, 'nav__bar': true, 'nav--open': isMenuOpen, 'nav--close': !isMenuOpen }">
+    <button class="menu--trigger close nav__button--close" *ngIf="isBelowSm" aria-label="Close" title="Close" (click)="isMenuOpen = false"></button>
+    <a class="nav__link" *ngFor="let item of navItems" [routerLink]="item.route" [routerLinkActive]="'menu--active'">{{ item.label }}</a>
+  </nav>
+</ng-template>

@@ -1,0 +1,13 @@
+.search--container {
+  background: var(--search-container-bg-color);
+}
+
+.search__input {
+  margin: 24px 0;
+  width: 55%;
+  height: 50px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0 10px;
+}

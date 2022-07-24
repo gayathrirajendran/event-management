@@ -1,0 +1,14 @@
+<div class="modal" [ngClass]="{ 'open': isVisible }">
+
+  <!-- Modal content -->
+  <div class="modal__content">
+    <button class="close" (click)="isVisibleChange.emit(false)">&times;</button>
+    <ng-container *ngTemplateOutlet="messageTemplate ? messageTemplate : defaultMessageBody"></ng-container>
+    <ng-container *ngTemplateOutlet="(actionButtons)!"></ng-container>
+  </div>
+
+</div>
+
+<ng-template #defaultMessageBody>
+  Modal Body
+</ng-template>

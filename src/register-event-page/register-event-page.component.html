@@ -1,0 +1,100 @@
+<div class="content">
+
+  <div class="row">
+    <div class="col-12 col-lg-8  text-center" *ngIf="eventItem as item">
+      <div class="event--desc">
+        <div class="event__title"><strong>{{ item.title }}</strong></div>
+        <div>
+          <div>{{ item.date | date }}</div>
+          <div>Tickets available: <span [ngClass]="{'event__info--alert': !!item.availableticketsCount}">{{ item.availableticketsCount }}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form class="row" [formGroup]="eventRegistrationForm" novalidate (ngSubmit)="submitBooking()">
+
+    <div class="control--block col-12 col-lg-8 ">
+      <label class="form__label block-element" for="fullName">Name</label>
+      <input class="form__control block-element" type="text" id="fullName" formControlName="fullName" placeholder="First Name Last Name" />
+      <ng-container *ngTemplateOutlet="errorContainerTemplate; context: { $implicit: eventRegistrationForm.get('fullName'), controlName: 'fullName' }"></ng-container>
+    </div>
+
+    <div class="control--block col-12 col-lg-8 ">
+      <label class="form__label block-element" for="email">Email</label>
+      <input class="form__control block-element" type="email" id="email" formControlName="email" placeholder="username@domain.com" />
+      <ng-container *ngTemplateOutlet="errorContainerTemplate; context: { $implicit: eventRegistrationForm.get('email'), controlName: 'email' }"></ng-container>
+    </div>
+
+    <div class="control--block col-12 col-lg-8 ">
+      <label class="form__label block-element" for="mobile">Mobile</label>
+      <input class="form__control block-element" type="tel" id="mobile" formControlName="mobile" placeholder="+91XXXX XXXXXX" />
+      <ng-container *ngTemplateOutlet="errorContainerTemplate; context: { $implicit: eventRegistrationForm.get('mobile'), controlName: 'mobile' }"></ng-container>
+    </div>
+
+    <div class="control--block col-12 col-lg-8 ">
+      <label class="form__label block-element" for="noOfAttendees">No of attendees</label>
+      <select class="form__control block-element" id="noOfAttendees" formControlName="noOfAttendees">
+        <ng-container *ngFor="let number of maxAttendeesArr; let i = index">
+          <option value="{{ i + 1 }}">{{ i + 1 }}</option>
+        </ng-container>
+      </select>
+      <ng-container *ngTemplateOutlet="errorContainerTemplate; context: { $implicit: eventRegistrationForm.get('noOfAttendees'), controlName: 'noOfAttendees' }"></ng-container>
+    </div>
+
+    <div class="control--block col-12 col-lg-8 " *ngIf="eventRegistrationForm.get('noOfAttendees')?.value > 1 && eventRegistrationForm.get('noOfAttendees')?.valid">
+      <label class="form__label block-element" for="attendees">Attendees</label>
+      <ng-container formArrayName="attendees">
+        <div class="container--flex" *ngFor="let control of attendees.controls; index as i; ">
+          <label [for]="'attendees'+i">{{ i+1 }}</label>
+          <input class="form__control" [id]="'attendees'+i" [formControl]="$any(control)" />
+          <button class="btn btn-default" type="button" [attr.title]="'Delete'" [attr.aria-label]="'Delete'" (click)="deleteItem(i)">Delete</button>
+          <ng-container *ngTemplateOutlet="errorContainerTemplate; context: { $implicit: attendees?.at(i),  controlName: 'attendees_'+i }"></ng-container>
+        </div>
+      </ng-container>
+      <button class="btn btn-default" type="button" *ngIf="attendees.controls.length < eventRegistrationForm.get('noOfAttendees')?.value - 1" (click)="addAttendee()">Add an attendee</button>
+      <ng-container *ngTemplateOutlet="errorContainerTemplate; context: { $implicit: eventRegistrationForm.get('attendees'), controlName: 'attendees' }"></ng-container>
+    </div>
+
+    <div class="col-12 col-lg-8">
+      <div class="button--container">
+        <button class="btn btn-primary flex-1" type="submit">Book tickets</button>
+        <button class="btn flex-1" type="button" (click)="redirect()">Cancel</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<ng-template #errorTemplate let-error let-controlName="controlName">
+  <div role="alert" class="alert">
+    <div *ngFor="let message of (error | errorMessage: controlName)">{{ message }}</div>
+  </div>
+</ng-template>
+
+<ng-template #errorContainerTemplate let-control let-controlName="controlName">
+  <ng-container *ngTemplateOutlet="control?.touched && control?.errors ? errorTemplate: null; context: { $implicit: control?.errors, controlName }"></ng-container>
+</ng-template>
+
+<app-modal *ngIf="isModalOpen" [(isVisible)]="isModalOpen">
+  <ng-template #messageBody>
+    <div class="row">
+      <div class="col-12 text-center">
+        You have booked <span class="event__info--alert">{{ eventRegistrationForm.get('noOfAttendees')?.value }} </span>ticket(s)
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center" *ngIf="eventItem as item">
+        <div class=" event--desc">
+          <div class="event__title"><strong>{{ item.title }}</strong></div>
+          <div>
+            <div>{{ item.date | date }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #actionButtons>
+    <app-register-action-buttons actionButtons></app-register-action-buttons>
+  </ng-template>
+</app-modal>

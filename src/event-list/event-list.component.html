@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-12 col-lg-4" *ngFor="let item of events; let i = index">
+    <!-- <div class="card-small card">
+    {{ item.title }}
+    {{ item.availableticketsCount }}
+    <a [routerLink]="['/events', item.id, 'book']" [attr.aria-label]="'Book'" [title]="'Book'">Book</a>
+    </div> -->
+    <!-- hello -->
+    <div class="event__card">
+      <div *ngIf="!isSmall">
+        <img class="event__img" [src]="item.imageSrc" alt="picture representing event" title="picture representing event" />
+      </div>
+      <div class="event__info">
+        <div class="event__title"><strong>{{ item.title }}</strong></div>
+        <div class="event__details">
+          <div>{{ item.date | date }}</div>
+          <div>Tickets available: <span [ngClass]="{'event__info--alert': !!item.availableticketsCount}">{{ item.availableticketsCount }}</span></div>
+        </div>
+      </div>
+      <a *ngIf="item.availableticketsCount; else soldTemplate" class="btn event__btn--action" [routerLink]="['/events', item.id, 'book']" [attr.aria-label]="'Book Event'" [title]="'Book Event'">
+        <div>
+          <img class="img__logo" src="https://alvimurtaza.github.io/Interview-Front-end/images/l3-l4-engineer/book.png" alt="Book event">
+          Book Event
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<ng-template #soldTemplate>
+  <a class="btn event__btn--action btn--disabled" [attr.aria-label]="'Sold out'" [title]="'Sold out'">
+    <div>
+      <img class="img__logo" src="https://alvimurtaza.github.io/Interview-Front-end/images/l3-l4-engineer/sold-out.png" alt="Sold out">
+      Sold out
+    </div>
+  </a>
+</ng-template>

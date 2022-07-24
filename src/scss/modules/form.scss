@@ -1,0 +1,23 @@
+.control--block {
+  margin: 7px 0;
+}
+
+.form__control {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0 10px;
+  margin: 5px 0;
+  height: 40px;
+  min-width: 150px;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.button--container {
+  display: flex;
+  gap: 20px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

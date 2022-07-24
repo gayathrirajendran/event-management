@@ -1,0 +1,40 @@
+<app-search [localeStrings]="searchLocales" (searchResultSelect)="searchRecords($event)"></app-search>
+<div class="content page--content">
+  <ng-container *ngIf="componentStatus === 'loaded'; then loadedTemplate"></ng-container>
+  <ng-container *ngIf="componentStatus === 'loading'; then loadingTemplate"></ng-container>
+  <ng-container *ngIf="componentStatus === 'error'; then errorTemplate"></ng-container>
+  <ng-container *ngIf="componentStatus === 'no-records'; then noRecordsTemplate"></ng-container>
+</div>
+
+<ng-template #loadedTemplate>
+  <ng-container *ngTemplateOutlet="headingTemplate; context: { $implicit: events.length }"></ng-container>
+  <ng-container *ngTemplateOutlet="eventsTemplate"></ng-container>
+</ng-template>
+
+<ng-template #eventsTemplate>
+  <div class="container">
+    <app-event-list [isSmall]="isBelowSm" [events]="events"></app-event-list>
+  </div>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <ng-container *ngTemplateOutlet="headingTemplate"></ng-container>
+  <div>Loading...</div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <ng-container *ngTemplateOutlet="headingTemplate"></ng-container>
+  <div>Error has occurred.</div>
+</ng-template>
+
+<ng-template #noRecordsTemplate>
+  <ng-container *ngTemplateOutlet="headingTemplate"></ng-container>
+  <div>No records found!</div>
+</ng-template>
+
+<ng-template #headingTemplate let-count>
+  <h1 class="event--heading">Events
+    <span>({{ count }})</span>
+  </h1>
+</ng-template>
+

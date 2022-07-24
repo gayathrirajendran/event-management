@@ -1,0 +1,5 @@
+<div class="search--container">
+  <div class="content">
+    <input class="search__input" type="search" [disabled]="isDisabled" [(ngModel)]="searchText" (ngModelChange)="searchResults($event)" [placeholder]="localeStrings.searchPlaceholder">
+  </div>
+</div>
